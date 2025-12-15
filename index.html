@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Ti</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  transition:background 1.5s ease;
+}
+
+.screen{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+
+.fade{
+  transition:opacity 1.5s ease;
+}
+
+button{
+  padding:15px 35px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  background:white;
+  color:black;
+  margin-top:30px;
+}
+
+button:hover{
+  transform:scale(1.1);
+}
+
+/* -------- GIRASOL -------- */
+
+.plant{
+  margin:30px 0;
+}
+
+.sunflower{
+  position:relative;
+  width:140px;
+  height:140px;
+  cursor:pointer;
+  transition:transform .15s ease;
+}
+
+.sunflower.explode{
+  animation:explode .6s forwards;
+}
+
+@keyframes explode{
+  0%{transform:scale(1);}
+  100%{transform:scale(2); opacity:0;}
+}
+
+.petal{
+  position:absolute;
+  width:30px;
+  height:60px;
+  background:#f5c542;
+  border-radius:50%;
+  top:10px;
+  left:55px;
+  transform-origin:bottom center;
+}
+
+.petal:nth-child(1){transform:rotate(0deg);}
+.petal:nth-child(2){transform:rotate(30deg);}
+.petal:nth-child(3){transform:rotate(60deg);}
+.petal:nth-child(4){transform:rotate(90deg);}
+.petal:nth-child(5){transform:rotate(120deg);}
+.petal:nth-child(6){transform:rotate(150deg);}
+.petal:nth-child(7){transform:rotate(180deg);}
+.petal:nth-child(8){transform:rotate(210deg);}
+.petal:nth-child(9){transform:rotate(240deg);}
+.petal:nth-child(10){transform:rotate(270deg);}
+.petal:nth-child(11){transform:rotate(300deg);}
+.petal:nth-child(12){transform:rotate(330deg);}
+
+.center-seed{
+  position:absolute;
+  width:50px;
+  height:50px;
+  background:#6b3e26;
+  border-radius:50%;
+  top:45px;
+  left:45px;
+}
+
+.stem{
+  width:8px;
+  height:120px;
+  background:#2e8b57;
+  margin:0 auto;
+}
+
+/* Imagen */
+img{
+  max-width:300px;
+  border-radius:20px;
+  margin-bottom:20px;
+}
+
+/* Texto final */
+.teamo{
+  font-size:64px;
+  letter-spacing:4px;
+  animation:fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- FASE 0 -->
+<div id="phase0" class="screen fade">
+  <img src="https://i.pinimg.com/564x/a0/33/e1/a033e110ee82456b4a2083b5e210134a.jpg">
+  <a href="https://www.youtube.com/watch?v=GgqAVgW4jqg&list=RDGgqAVgW4jqg&start_radio=1" target="_blank">
+    Escuchar nuestra canción 💛
+  </a>
+  <button onclick="start()">Click para comenzar</button>
+</div>
+
+<!-- FASE 1 -->
+<div id="phase1" class="screen fade hidden">
+  <h1 id="text"></h1>
+</div>
+
+<!-- FASE 2 -->
+<div id="phase2" class="screen fade hidden">
+  <button onclick="phase3()">Click</button>
+</div>
+
+<!-- FASE 3 -->
+<div id="phase3" class="screen fade hidden">
+
+  <div class="plant">
+    <div id="sunflower" class="sunflower">
+      <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+      <div class="center-seed"></div>
+    </div>
+    <div class="stem"></div>
+  </div>
+
+  <p>
+    Como este girasol,<br>
+    siempre busco la luz<br>
+    que encuentro en ti.
+  </p>
+
+</div>
+
+<!-- FASE FINAL -->
+<div id="final" class="screen fade hidden">
+  <h1 class="teamo">Te amo</h1>
+</div>
+
+<script>
+const text = document.getElementById("text");
+const sunflower = document.getElementById("sunflower");
+
+let messages = ["Hola", "Esta página está hecha para ti"];
+let index = 0;
+
+function start(){
+  document.getElementById("phase0").classList.add("hidden");
+  document.getElementById("phase1").classList.remove("hidden");
+  showText();
+}
+
+function showText(){
+  text.style.opacity = 0;
+  setTimeout(()=>{
+    text.textContent = messages[index];
+    text.style.opacity = 1;
+
+    setTimeout(()=>{
+      text.style.opacity = 0;
+      index++;
+      if(index < messages.length){
+        setTimeout(showText, 800);
+      }else{
+        document.body.style.background="#f6c1d1";
+        document.getElementById("phase1").classList.add("hidden");
+        document.getElementById("phase2").classList.remove("hidden");
+      }
+    },1500);
+  },500);
+}
+
+function phase3(){
+  document.getElementById("phase2").classList.add("hidden");
+  document.getElementById("phase3").classList.remove("hidden");
+}
+
+/* Movimiento con mouse */
+document.addEventListener("mousemove",(e)=>{
+  if(!sunflower) return;
+  const center = window.innerWidth / 2;
+  sunflower.style.transform = `translateX(${(e.clientX-center)/40}px)`;
+});
+
+/* Explosión */
+sunflower.addEventListener("click",()=>{
+  sunflower.classList.add("explode");
+  setTimeout(()=>{
+    document.getElementById("phase3").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+  },600);
+});
+</script>
+
+</body>
+</html>
